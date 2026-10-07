@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JB Fitnet website
 
-## Getting Started
+Marketing site and waitlist for JB Fitnet. Next.js (App Router), MongoDB Atlas, deployed on Vercel.
 
-First, run the development server:
+## Pages
+
+| Route | What it is |
+|---|---|
+| `/` | Home, with the day-rate calculator |
+| `/how-it-works` | Step-by-step walkthrough and example figures |
+| `/for-gyms` | Pitch for gym owners |
+| `/waitlist` | Waitlist entry: choose member or gym owner |
+| `/waitlist/member` | Three-step sign-up for people who train |
+| `/waitlist/gym` | Three-step sign-up for gyms |
+| `/faq`, `/privacy` | Questions and privacy note |
+| `/admin` | Password-protected panel: sign-ups, search, filters, reports, CSV download |
+
+The waitlist routes live in `src/app/(join)` and use their own full-screen layout without the site header and footer.
+
+Sign-ups are stored in two collections: `waitlist_members` and `waitlist_gyms`. Each allows one entry per mobile number.
+
+## Run locally
 
 ```bash
+cp .env.example .env.local   # then fill in MONGODB_URI
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Sample data for local testing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run seed         # add sample members and gyms to the local database
+npm run seed:clear   # remove them
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The seed script only runs against a local MongoDB (`mongodb://127.0.0.1` or `localhost`) and marks every entry `is_sample: true`.
 
-## Learn More
+## Environment variables
 
-To learn more about Next.js, take a look at the following resources:
+| Name | Required | Purpose |
+|---|---|---|
+| `MONGODB_URI` | Yes | Atlas connection string |
+| `MONGODB_DB` | No | Database name, defaults to `jbfitnet` |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | No | Shown in the footer and on the privacy page |
+| `ADMIN_PASSWORD` | For `/admin` | Password for the admin panel. Use a long random value. Without it the panel stays locked. |
+| `ADMIN_SESSION_SECRET` | No | Separate key for signing admin sessions |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## MongoDB Atlas setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Create a cluster at cloud.mongodb.com (the free M0 tier is enough for a waitlist).
+2. Database Access: add a database user with read and write access.
+3. Network Access: allow `0.0.0.0/0`. Vercel functions do not have fixed IP addresses.
+4. Connect > Drivers: copy the connection string and put your user's password in it. That is `MONGODB_URI`.
 
-## Deploy on Vercel
+## Deploy to Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Push this folder to a GitHub repository.
+2. In Vercel, choose Add New > Project and import the repository. If the repository holds more than this folder, set Root Directory to `jb-web`.
+3. Add `MONGODB_URI` (and the optional variables) under Environment Variables.
+4. Deploy, then add your domain under Settings > Domains.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Editing content
+
+- Copy, navigation and FAQs: `src/lib/site.ts` and the page files in `src/app`.
+- Colours and type: the tokens at the top of `src/app/globals.css`, which follow `../brand-kit`.

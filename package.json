@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "node --env-file=.env.local scripts/seed.mjs",
+    "seed:clear": "node --env-file=.env.local scripts/seed.mjs --clear"
   },
   "dependencies": {
+    "mongodb": "^7.7.0",
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0"
@@ -20,5 +23,8 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=20.9"
   }
 }
