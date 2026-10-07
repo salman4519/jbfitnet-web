@@ -24,7 +24,7 @@ export default function Footer() {
         <div>
           <h2>Company</h2>
           <Link href="/privacy">Privacy</Link>
-          {site.contactEmail && <span>{site.contactEmail}</span>}
+          {site.contactEmail && <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>}
         </div>
       </div>
       <div className="container footer-base">© 2026 JB Fitnet. App coming soon.</div>

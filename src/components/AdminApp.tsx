@@ -265,7 +265,7 @@ export default function AdminApp() {
 
       <aside className={mobileNav ? "admin-side mobile-open" : "admin-side"} aria-label="Admin navigation">
         <div className="admin-side-head">
-          <Image src="/jb-mark.png" alt="" width={32} height={32} />
+          <Image src="/mark.png" alt="" width={32} height={32} />
           <div className="admin-side-text">
             <strong>JB Fitnet</strong>
             <span>Waitlist admin</span>

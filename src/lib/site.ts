@@ -3,8 +3,8 @@ export const site = {
   tagline: "One wallet. Many gyms. Pay only for the days you train.",
   description:
     "Top up your JB Fitnet wallet and train at any partner gym. You pay that gym's day rate only on the days you go. Join the waitlist.",
-  // Shown on the privacy page and footer once set.
-  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
+  // Shown on the privacy page and footer. NEXT_PUBLIC_CONTACT_EMAIL overrides it.
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "jbfitnet@gmail.com",
 };
 
 export const nav = [

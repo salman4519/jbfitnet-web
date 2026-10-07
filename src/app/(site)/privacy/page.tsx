@@ -30,7 +30,7 @@ export default function Privacy() {
           You can ask us to delete your waitlist entry at any time
           {site.contactEmail ? (
             <>
-              {" "}by writing to <strong>{site.contactEmail}</strong>.
+              {" "}by writing to <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>.
             </>
           ) : (
             "."

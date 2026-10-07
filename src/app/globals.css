@@ -1,8 +1,10 @@
 /* JB Fitnet brand tokens (see ../brand-kit/tokens.css) */
 :root {
   color-scheme: light;
-  --yellow: #ffd600;
-  --yellow-600: #e6c100;
+  /* Brand red. White text sits on it; it also works as text on the light surfaces. */
+  --brand: #e10600;
+  --brand-600: #b80500;
+  --on-brand: #ffffff;
   --black: #0b0b0b;
   --n-900: #161616;
   --charcoal: #1e1e1e;
@@ -13,7 +15,7 @@
   --error: #f65454;
   --line: rgba(11, 11, 11, 0.12);
 
-  /* Site surface tokens (light theme). Yellow is a highlight and a fill, never text. */
+  /* Site surface tokens (light theme) */
   --bg: #f5f5f5;
   --surface: #ffffff;
   --surface-2: #ebebeb;
@@ -21,13 +23,13 @@
   --text: #0b0b0b;
   --muted: #5c5c5c;
   --border-strong: #a8a8a8;
-  --accent-text: #0b0b0b;
+  --accent-text: #e10600;
   --focus: #0b0b0b;
   --ghost: rgba(11, 11, 11, 0.4);
   --glass: rgba(245, 245, 245, 0.9);
-  --mark-bg: #ffd600;
-  --accent-soft: rgba(255, 214, 0, 0.3);
-  --hero-tint: rgba(255, 214, 0, 0.28);
+  --mark-bg: transparent;
+  --accent-soft: rgba(225, 6, 0, 0.07);
+  --hero-tint: rgba(225, 6, 0, 0.08);
   --error-text: #c62828;
 
   --radius: 16px;
@@ -146,8 +148,8 @@ mark {
   left: 1rem;
   top: -4rem;
   z-index: 100;
-  background: var(--yellow);
-  color: var(--black);
+  background: var(--brand);
+  color: var(--on-brand);
   padding: 0.6rem 1rem;
   border-radius: 8px;
   font-weight: 600;
@@ -208,7 +210,7 @@ mark {
   gap: 1.5rem;
 }
 
-/* The slanted yellow slash from the logo opens every eyebrow. */
+/* The slanted brand slash from the logo opens every eyebrow. */
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -224,7 +226,7 @@ mark {
   content: "";
   width: 18px;
   height: 11px;
-  background: var(--yellow);
+  background: var(--brand);
   transform: skewX(var(--slant));
   flex: none;
 }
@@ -258,12 +260,12 @@ mark {
 }
 
 .btn-primary {
-  background: var(--yellow);
-  color: var(--black);
+  background: var(--brand);
+  color: var(--on-brand);
 }
 
 .btn-primary:hover {
-  background: var(--yellow-600);
+  background: var(--brand-600);
 }
 
 .btn-ghost {
@@ -281,8 +283,8 @@ mark {
 }
 
 .btn-outline-dark {
-  border-color: var(--black);
-  color: var(--black);
+  border-color: var(--on-brand);
+  color: var(--on-brand);
 }
 
 .btn-sm {
@@ -458,7 +460,7 @@ mark {
   width: 100%;
   height: 28px;
   cursor: pointer;
-  accent-color: var(--yellow);
+  accent-color: var(--brand);
 }
 
 .calc-month {
@@ -481,8 +483,8 @@ mark {
 }
 
 .calc-month span.on {
-  background: var(--yellow);
-  color: var(--black);
+  background: var(--brand);
+  color: var(--on-brand);
 }
 
 .calc-totals {
@@ -731,8 +733,8 @@ mark {
   display: grid;
   place-items: center;
   flex: none;
-  background: var(--yellow);
-  color: var(--black);
+  background: var(--brand);
+  color: var(--on-brand);
   border-radius: 50%;
 }
 
@@ -778,7 +780,7 @@ mark {
   top: 0.45em;
   width: 16px;
   height: 10px;
-  background: var(--yellow);
+  background: var(--brand);
   transform: skewX(var(--slant));
 }
 
@@ -858,8 +860,8 @@ mark {
 
 /* CTA band */
 .cta-band {
-  background: var(--yellow);
-  color: var(--black);
+  background: var(--brand);
+  color: var(--on-brand);
   padding-block: clamp(3rem, 7vw, 5rem);
 }
 
@@ -876,7 +878,7 @@ mark {
 }
 
 .cta-band :focus-visible {
-  outline-color: var(--black);
+  outline-color: var(--on-brand);
 }
 
 /* Forms */
@@ -915,7 +917,7 @@ mark {
 .field textarea:focus {
   outline: none;
   border-color: var(--focus);
-  box-shadow: 0 0 0 3px rgba(255, 214, 0, 0.15);
+  box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.15);
 }
 
 .hp {
@@ -1111,7 +1113,7 @@ mark {
 }
 
 .join-progress span.on {
-  background: var(--yellow);
+  background: var(--brand);
 }
 
 .join-count {
@@ -1186,9 +1188,9 @@ mark {
 }
 
 .chips input:checked + span {
-  background: var(--yellow);
-  border-color: var(--yellow);
-  color: var(--black);
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--on-brand);
 }
 
 .chips input:focus-visible + span {
@@ -1265,7 +1267,7 @@ mark {
   font-size: 0.95rem;
 }
 
-/* Admin panel: light surface, brand black sidebar, yellow for the active item and primary actions */
+/* Admin panel: light surface, brand black sidebar, brand red for the active item and primary actions */
 body:has(.admin) {
   background: #f5f5f5;
 }
@@ -1308,7 +1310,7 @@ body:has(.admin) {
   gap: 1.25rem;
   background: var(--a-surface);
   border: 1px solid var(--a-line);
-  border-top: 4px solid var(--yellow);
+  border-top: 4px solid var(--brand);
   border-radius: 12px;
   padding: 2rem;
   color: var(--a-text);
@@ -1433,13 +1435,13 @@ body:has(.admin) {
 }
 
 .admin-side-nav button[aria-current="page"] {
-  background: var(--yellow);
-  color: var(--black);
+  background: var(--brand);
+  color: var(--on-brand);
   font-weight: 600;
 }
 
 .admin-side :focus-visible {
-  outline-color: var(--yellow);
+  outline-color: var(--white);
 }
 
 .admin-side-count {
@@ -1546,14 +1548,14 @@ body:has(.admin) {
 }
 
 .admin-btn-primary {
-  background: var(--yellow);
-  border-color: var(--yellow);
-  color: var(--black);
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--on-brand);
 }
 
 .admin-btn-primary:hover {
-  background: var(--yellow-600);
-  border-color: var(--yellow-600);
+  background: var(--brand-600);
+  border-color: var(--brand-600);
 }
 
 .admin-link {
@@ -1565,7 +1567,7 @@ body:has(.admin) {
   color: var(--a-text);
   font-weight: 600;
   text-decoration: underline;
-  text-decoration-color: var(--yellow);
+  text-decoration-color: var(--brand);
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
   cursor: pointer;
@@ -1632,7 +1634,7 @@ body:has(.admin) {
 .admin .field input:focus,
 .admin .field select:focus {
   border-color: var(--a-text);
-  box-shadow: 0 0 0 3px rgba(255, 214, 0, 0.45);
+  box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.2);
 }
 
 .admin .form-error {
@@ -1693,7 +1695,7 @@ body:has(.admin) {
 }
 
 .admin-table tbody tr:hover {
-  background: #fffbe0;
+  background: #fdeceb;
 }
 
 .admin-empty {
@@ -1770,7 +1772,6 @@ body:has(.admin) {
   overflow: hidden;
 }
 
-/* Black bars: yellow on a light surface is too faint to read as data. */
 .admin-bar-track span {
   display: block;
   height: 100%;
@@ -1791,8 +1792,8 @@ body:has(.admin) {
 }
 
 .admin-viewcol .admin-icon-btn:hover {
-  background: var(--yellow);
-  color: var(--black);
+  background: var(--brand);
+  color: var(--on-brand);
 }
 
 .admin-sheet-backdrop {
@@ -1840,7 +1841,7 @@ body:has(.admin) {
   justify-content: space-between;
   gap: 1rem;
   padding: 1.25rem 1.25rem 1rem;
-  border-top: 4px solid var(--yellow);
+  border-top: 4px solid var(--brand);
   border-bottom: 1px solid var(--a-line);
 }
 
@@ -1884,7 +1885,7 @@ body:has(.admin) {
 }
 
 .admin-sheet-list a {
-  text-decoration-color: var(--yellow);
+  text-decoration-color: var(--brand);
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
 }

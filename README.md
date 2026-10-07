@@ -42,7 +42,7 @@ The seed script only runs against a local MongoDB (`mongodb://127.0.0.1` or `loc
 |---|---|---|
 | `MONGODB_URI` | Yes | Atlas connection string |
 | `MONGODB_DB` | No | Database name, defaults to `jbfitnet` |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | No | Shown in the footer and on the privacy page |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | No | Overrides the contact email in the footer and privacy page (default `jbfitnet@gmail.com`) |
 | `ADMIN_PASSWORD` | For `/admin` | Password for the admin panel. Use a long random value. Without it the panel stays locked. |
 | `ADMIN_SESSION_SECRET` | No | Separate key for signing admin sessions |
 
