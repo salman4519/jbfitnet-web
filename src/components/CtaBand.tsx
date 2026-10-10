@@ -1,16 +1,18 @@
 import Link from "next/link";
+import { type Lang, localize, translator } from "@/lib/i18n";
 
-export default function CtaBand() {
+export default function CtaBand({ lang }: { lang: Lang }) {
+  const t = translator(lang);
   return (
     <section className="cta-band">
       <div className="container cta-band-inner">
-        <h2>Stop paying for days you don&apos;t train.</h2>
+        <h2>{t("Stop paying for days you don't train.")}</h2>
         <div className="btn-row">
-          <Link href="/waitlist" className="btn btn-dark">
-            Join the waitlist
+          <Link href={localize(lang, "/waitlist")} className="btn btn-dark">
+            {t("Join the waitlist")}
           </Link>
-          <Link href="/waitlist/gym" className="btn btn-outline-dark">
-            Add your gym
+          <Link href={localize(lang, "/waitlist/gym")} className="btn btn-outline-dark">
+            {t("Add your gym")}
           </Link>
         </div>
       </div>

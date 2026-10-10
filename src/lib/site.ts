@@ -1,8 +1,8 @@
 export const site = {
   name: "JB Fitnet",
-  tagline: "One wallet. Many gyms. Pay only for the days you train.",
+  tagline: "One pass. All gyms. Pay only for the days you train.",
   description:
-    "Top up your JB Fitnet wallet and train at any partner gym. You pay that gym's day rate only on the days you go. Join the waitlist.",
+    "One pass for every JB Fitnet partner gym. Pay only for the days you train, keep training when you travel, and see how busy a gym is before you go. Join the waitlist.",
   // Shown on the privacy page and footer. NEXT_PUBLIC_CONTACT_EMAIL overrides it.
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "jbfitnet@gmail.com",
 };
@@ -26,11 +26,15 @@ export const memberFaqs: Faq[] = [
   },
   {
     q: "Can I use more than one gym?",
-    a: "Yes. One wallet works at every JB Fitnet partner gym, and each visit is charged at that gym's own day rate.",
+    a: "Yes. One pass works at every JB Fitnet partner gym, and each visit is charged at that gym's own day rate.",
+  },
+  {
+    q: "Can I see how busy a gym is before I go?",
+    a: "Yes. The app shows how many JB Fitnet users are training at each gym right now, so you can choose a quieter gym or a livelier one.",
   },
   {
     q: "Can I train while I'm travelling?",
-    a: "Yes. Open the app wherever you are, find the nearest partner gym and check in. It is the same wallet, charged at that gym's day rate, so a trip doesn't break your routine.",
+    a: "Yes. Open the app wherever you are, find the nearest partner gym and check in. It is the same pass, charged at that gym's day rate, so a trip doesn't break your routine.",
   },
   {
     q: "Is this a membership?",
@@ -45,7 +49,19 @@ export const memberFaqs: Faq[] = [
 export const gymFaqs: Faq[] = [
   {
     q: "How does my gym get paid?",
-    a: "Members top up their wallet before they visit, so each check-in is paid from prepaid money. Settlement timing and commercial terms are shared with every gym during onboarding.",
+    a: "Every visit is recorded when a member checks in, and your earnings are credited to you in one payment through the system. Selected gyms also receive payment up front. Exact terms are shared during onboarding.",
+  },
+  {
+    q: "How do members check in at my gym?",
+    a: "Your gym gets its own QR code. You print it and place it at the entrance. Members scan it with the JB Fitnet app to check in, and check out in the app when they leave. Every visit is recorded automatically.",
+  },
+  {
+    q: "Is there a free trial?",
+    a: "Yes, for the first 10 gyms that join JB Fitnet.",
+  },
+  {
+    q: "What is the JB management system?",
+    a: "It is the software partner gyms get from us, so check-ins and payments are handled in one place.",
   },
   {
     q: "Who decides the price?",
@@ -53,7 +69,7 @@ export const gymFaqs: Faq[] = [
   },
   {
     q: "Where do the new members come from?",
-    a: "JB Fitnet users see partner gyms near them in the app. That includes people travelling for work, visitors to your area and locals whose own gym is somewhere else that day. They check in with you and you are paid for the visit.",
+    a: "JB Fitnet users see partner gyms near them in the app. That includes people travelling for work, visitors to your area and locals whose own gym is somewhere else that day. They check in with you, often in your quieter hours, and you are paid for the visit.",
   },
   {
     q: "Will this replace my existing memberships?",

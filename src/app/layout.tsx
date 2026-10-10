@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Montserrat } from "next/font/google";
+import { Anek_Malayalam, Inter, Montserrat, Noto_Sans_Malayalam } from "next/font/google";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -12,6 +12,20 @@ const heading = Montserrat({
 const body = Inter({
   variable: "--font-body",
   subsets: ["latin"],
+});
+
+// Malayalam faces are only fetched by pages that use them.
+const mlHeading = Anek_Malayalam({
+  variable: "--font-ml-heading",
+  subsets: ["malayalam"],
+  weight: ["700", "800"],
+  preload: false,
+});
+
+const mlBody = Noto_Sans_Malayalam({
+  variable: "--font-ml-body",
+  subsets: ["malayalam"],
+  preload: false,
 });
 
 const productionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
@@ -37,7 +51,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${heading.variable} ${body.variable}`}>
+    <html lang="en" className={`${heading.variable} ${body.variable} ${mlHeading.variable} ${mlBody.variable}`}>
       <body>
         <a href="#main" className="skip-link">
           Skip to content

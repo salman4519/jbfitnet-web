@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { type Lang, translator } from "@/lib/i18n";
 
 const rupees = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
@@ -10,7 +11,8 @@ const DAY_ORDER = [
   26, 3, 10, 17, 24, 6, 13, 20, 27,
 ];
 
-export default function Calculator() {
+export default function Calculator({ lang }: { lang: Lang }) {
+  const t = translator(lang);
   const [fee, setFee] = useState(1500);
   const [days, setDays] = useState(12);
 
@@ -21,15 +23,15 @@ export default function Calculator() {
   return (
     <div className="calc">
       <div className="calc-head">
-        <span className="eyebrow">Try it</span>
+        <span className="eyebrow">{t("Try it")}</span>
         <span className="calc-rate">
-          {rupees(fee)} ÷ 30 = <strong>{rupees(dayRate)}</strong> a day
+          {rupees(fee)} ÷ 30 = <strong>{rupees(dayRate)}</strong> {t("a day")}
         </span>
       </div>
 
       <div className="calc-field">
         <label htmlFor="calc-fee">
-          Gym&apos;s monthly fee <strong>{rupees(fee)}</strong>
+          {t("Gym's monthly fee")} <strong>{rupees(fee)}</strong>
         </label>
         <input
           id="calc-fee"
@@ -44,7 +46,7 @@ export default function Calculator() {
 
       <div className="calc-field">
         <label htmlFor="calc-days">
-          Days you train this month <strong>{days}</strong>
+          {t("Days you train this month")} <strong>{days}</strong>
         </label>
         <input
           id="calc-days"
@@ -66,19 +68,19 @@ export default function Calculator() {
 
       <dl className="calc-totals">
         <div>
-          <dt>Monthly membership</dt>
+          <dt>{t("Monthly membership")}</dt>
           <dd className="strike">{rupees(fee)}</dd>
         </div>
         <div className="calc-pay">
-          <dt>You pay with JB Fitnet</dt>
+          <dt>{t("You pay with JB Fitnet")}</dt>
           <dd>{rupees(youPay)}</dd>
         </div>
         <div>
-          <dt>Stays in your wallet</dt>
+          <dt>{t("Stays in your wallet")}</dt>
           <dd>{rupees(fee - youPay)}</dd>
         </div>
       </dl>
-      <p className="calc-note">Example figures. Each partner gym&apos;s day rate comes from its own monthly fee.</p>
+      <p className="calc-note">{t("Example figures. Each partner gym's day rate comes from its own monthly fee.")}</p>
     </div>
   );
 }

@@ -159,6 +159,92 @@ mark {
   top: 1rem;
 }
 
+/* Language switch */
+.lang-switch {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.lang-switch:hover {
+  border-color: var(--text);
+}
+
+.lang-switch[lang="ml"] {
+  font-family: var(--font-ml-body), var(--body);
+}
+
+.join-bar-tools {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer .lang-switch {
+  margin-top: 0.25rem;
+}
+
+.drawer-nav .lang-switch {
+  align-self: flex-start;
+  margin-top: 1.25rem;
+  font-family: var(--body);
+  text-transform: none;
+  font-size: 0.95rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--border-strong);
+}
+
+/* Malayalam pages: their own typefaces, no letter-spacing (it breaks joined letters), roomier lines */
+html:has([data-lang="ml"]) {
+  --heading: var(--font-ml-heading), "Montserrat", sans-serif;
+  --body: var(--font-ml-body), system-ui, sans-serif;
+}
+
+html:has([data-lang="ml"]) body {
+  line-height: 1.75;
+}
+
+html:has([data-lang="ml"]) * {
+  letter-spacing: 0 !important;
+}
+
+html:has([data-lang="ml"]) :is(h1, h2, h3, .join-side-head, .join-option strong, .drawer-nav a) {
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+html:has([data-lang="ml"]) h1 {
+  font-size: clamp(2rem, 4.8vw, 3.4rem);
+}
+
+html:has([data-lang="ml"]) .page-hero h1 {
+  font-size: clamp(1.9rem, 4.2vw, 3rem);
+  max-width: 24ch;
+}
+
+html:has([data-lang="ml"]) h2 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+html:has([data-lang="ml"]) :is(.join-form h1, .join-done h1) {
+  font-size: clamp(1.5rem, 3.4vw, 2rem);
+}
+
+html:has([data-lang="ml"]) .btn {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+html:has([data-lang="ml"]) .lang-switch[lang="en"] {
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
 /* Layout */
 .container {
   width: 100%;
@@ -563,7 +649,7 @@ mark {
 
 .statement li {
   display: grid;
-  grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+  grid-template-columns: minmax(2.75rem, max-content) minmax(0, 1fr) auto;
   gap: 0.75rem;
   align-items: baseline;
   padding-block: 0.9rem;
@@ -606,39 +692,80 @@ mark {
   color: var(--accent-text);
 }
 
-/* Facts strip */
-.facts {
-  border-block: 1px solid var(--line);
-  background: var(--surface);
+/* Six cards read better as three per row */
+.cards.cards-3 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
-.facts-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.facts-grid > div {
+/* QR check-in explainer on the gym page */
+.split > .qr-side {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  padding: 2rem 1.5rem 2rem 0;
+  align-items: stretch;
+  gap: 2rem;
 }
 
-.facts-grid > div + div {
-  padding-left: 1.5rem;
-  border-left: 1px solid var(--line);
+.qr-poster {
+  align-self: center;
+  width: min(100%, 300px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 6px solid var(--brand);
+  border-radius: var(--radius);
+  text-align: center;
 }
 
-.facts-grid strong {
-  font-family: var(--heading);
-  font-weight: 800;
+.qr-poster-top {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  color: var(--muted);
 }
 
-.facts-grid span {
+.qr-code {
+  width: 100%;
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: repeat(21, 1fr);
+  padding: 8px;
+  background: #ffffff;
+}
+
+.qr-code i.on {
+  background: #0b0b0b;
+}
+
+.qr-poster strong {
+  font-family: var(--heading);
+  font-weight: 900;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.qr-poster > span:last-child {
+  font-size: 0.75rem;
   color: var(--muted);
-  font-size: 0.95rem;
+}
+
+/* Benefit cards under the hero */
+.benefits {
+  padding-block: clamp(2rem, 5vw, 3.5rem);
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.benefits .card {
+  background: var(--bg);
+}
+
+.card .eyebrow {
+  height: 11px;
 }
 
 /* Comparison table */
@@ -2146,20 +2273,6 @@ body:has(.admin) {
     padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
   }
 
-  .facts-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .facts-grid > div,
-  .facts-grid > div + div {
-    padding: 1.25rem 0;
-    border-left: 0;
-  }
-
-  .facts-grid > div + div {
-    border-top: 1px solid var(--line);
-  }
-
 }
 
 /* Phones: the main audience. Tables become stacked cards, actions go full width. */
@@ -2327,7 +2440,7 @@ body:has(.admin) {
   }
 
   .statement li {
-    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    grid-template-columns: minmax(2.5rem, max-content) minmax(0, 1fr) auto;
   }
 
   .cta-band h2 {
@@ -2337,6 +2450,17 @@ body:has(.admin) {
   .faq summary {
     padding-block: 1.1rem;
     font-size: 1rem;
+  }
+
+  /* Phones: the close mark alone is enough beside the language switch */
+  .join-exit {
+    font-size: 0;
+  }
+
+  .join-exit::after {
+    font-size: 1.25rem;
+    margin-left: 0;
+    padding: 0.4rem;
   }
 
   .join-option {

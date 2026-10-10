@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <JoinScreen kind="gym" />;
+  return <JoinScreen kind="gym" lang="en" />;
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
+import { type Lang, localize, translator } from "@/lib/i18n";
 
 type Kind = "member" | "gym";
 type Status =
@@ -25,7 +26,8 @@ const stepTitles: Record<Kind, { title: string; hint: string }[]> = {
 
 const rupees = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
-export default function JoinWizard({ kind }: { kind: Kind }) {
+export default function JoinWizard({ kind, lang }: { kind: Kind; lang: Lang }) {
+  const t = translator(lang);
   const formRef = useRef<HTMLFormElement>(null);
   const [step, setStep] = useState(0);
   const [status, setStatus] = useState<Status>({ state: "idle" });
@@ -64,9 +66,17 @@ export default function JoinWizard({ kind }: { kind: Kind }) {
       });
       const data = await res.json();
       if (res.ok) setStatus({ state: "done", position: data.position });
-      else setStatus({ state: "error", message: data.error ?? "Could not join the waitlist." });
+      else {
+        // The server answers in English; show Malayalam readers a message keyed on what went wrong.
+        const english = data.error ?? "Could not join the waitlist.";
+        const fallback =
+          res.status === 409 ? "This mobile number is already on the list. We'll be in touch."
+          : res.status === 400 ? "Please check your details and try again."
+          : "Something went wrong on our side. Please try again.";
+        setStatus({ state: "error", message: lang === "ml" ? t(fallback) : english });
+      }
     } catch {
-      setStatus({ state: "error", message: "No connection. Check your internet and try again." });
+      setStatus({ state: "error", message: t("No connection. Check your internet and try again.") });
     }
   }
 
@@ -82,32 +92,34 @@ export default function JoinWizard({ kind }: { kind: Kind }) {
   if (status.state === "done") {
     return (
       <div className="join-done" role="status">
-        <span className="eyebrow">You&apos;re in</span>
+        <span className="eyebrow">{t("You're in")}</span>
         <p className="join-pos">#{status.position}</p>
-        <h1>{kind === "member" ? "on the waitlist." : "on the partner list."}</h1>
+        <h1>{t(kind === "member" ? "on the waitlist." : "on the partner list.")}</h1>
         <ol className="join-next">
           {kind === "member" ? (
             <>
-              <li>We sign up gyms in your city.</li>
-              <li>You get a message the day we open there.</li>
-              <li>Top up, check in, and pay only for the days you show up.</li>
+              <li>{t("We sign up gyms in your city.")}</li>
+              <li>{t("You get a message the day we open there.")}</li>
+              <li>{t("Top up, check in, and pay only for the days you show up.")}</li>
             </>
           ) : (
             <>
-              <li>Our team contacts you when onboarding begins in your city.</li>
-              <li>We confirm your listing and share the commercial terms.</li>
-              <li>Members start checking in, paid from prepaid wallets.</li>
+              <li>{t("Our team contacts you when onboarding begins in your city.")}</li>
+              <li>{t("We set up your listing and the JB management system.")}</li>
+              <li>{t("Members start checking in and your earnings are credited to you.")}</li>
             </>
           )}
         </ol>
         <div className="btn-row">
           <button type="button" className="btn btn-primary" onClick={copyLink}>
-            {copied
-              ? kind === "member" ? "Link copied. Now send it to them." : "Link copied"
-              : kind === "member" ? "Copy link for a gym buddy" : "Copy link for another owner"}
+            {t(
+              copied
+                ? kind === "member" ? "Link copied. Now send it to them." : "Link copied"
+                : kind === "member" ? "Copy link for a gym buddy" : "Copy link for another owner",
+            )}
           </button>
-          <Link href="/" className="btn btn-ghost">
-            Back to home
+          <Link href={localize(lang, "/")} className="btn btn-ghost">
+            {t("Back to home")}
           </Link>
         </div>
       </div>
@@ -125,54 +137,54 @@ export default function JoinWizard({ kind }: { kind: Kind }) {
         ))}
       </div>
       <p className="join-count">
-        Step {step + 1} of {steps.length}
+        {t("Step")} {step + 1} {t("of")} {steps.length}
       </p>
-      <h1>{steps[step].title}</h1>
-      <p className="join-hint">{steps[step].hint}</p>
+      <h1>{t(steps[step].title)}</h1>
+      <p className="join-hint">{t(steps[step].hint)}</p>
 
       {/* Honeypot, hidden from people */}
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hp" aria-hidden="true" />
 
       <fieldset data-step="0" hidden={step !== 0}>
         {kind === "member" ? (
-          <Field label="Your name" name="full_name" required autoComplete="name" />
+          <Field label={t("Your name")} name="full_name" required autoComplete="name" />
         ) : (
           <>
-            <Field label="Your name" name="contact_name" required autoComplete="name" />
-            <Field label="Gym name" name="gym_name" required />
+            <Field label={t("Your name")} name="contact_name" required autoComplete="name" />
+            <Field label={t("Gym name")} name="gym_name" required />
           </>
         )}
-        <Field label="Mobile number" name="phone" type="tel" required autoComplete="tel" inputMode="tel"
+        <Field label={t("Mobile number")} name="phone" type="tel" required autoComplete="tel" inputMode="tel"
           pattern="[0-9+\(\) \-]{8,20}" />
-        <Field label="Email" name="email" type="email" autoComplete="email" optional />
+        <Field label={t("Email")} name="email" type="email" autoComplete="email" optional={t("Optional")} />
       </fieldset>
 
       <fieldset data-step="1" hidden={step !== 1}>
-        <Field label="City" name="city" required autoComplete="address-level2" />
-        <Field label="Area / locality" name="area" optional />
-        {kind === "member" && <Field label="Current gym" name="current_gym" optional />}
+        <Field label={t("City")} name="city" required autoComplete="address-level2" />
+        <Field label={t("Area / locality")} name="area" optional={t("Optional")} />
+        {kind === "member" && <Field label={t("Current gym")} name="current_gym" optional={t("Optional")} />}
       </fieldset>
 
       <fieldset data-step="2" hidden={step !== 2}>
         {kind === "member" ? (
           <>
-            <Chips label="How often do you train?" name="workout_frequency"
+            <Chips t={t} label={t("How often do you train?")} name="workout_frequency"
               options={["1–2 days a week", "3–4 days a week", "5+ days a week", "Haven't started yet"]} />
-            <Chips label="What do you pay per month now?" name="monthly_spend"
+            <Chips t={t} label={t("What do you pay per month now?")} name="monthly_spend"
               options={["Not paying for a gym", "Under ₹1,000", "₹1,000–₹2,000", "₹2,000–₹4,000", "Over ₹4,000"]} />
           </>
         ) : (
           <>
-            <Field label="Monthly membership fee (₹)" name="monthly_fee" type="number" inputMode="numeric" min={0}
-              optional value={fee} onChange={(e) => setFee(e.target.value)} />
+            <Field label={t("Monthly membership fee (₹)")} name="monthly_fee" type="number" inputMode="numeric" min={0}
+              optional={t("Optional")} value={fee} onChange={(e) => setFee(e.target.value)} />
             {feeNumber >= 30 && (
               <p className="join-rate">
-                A JB Fitnet visit to your gym would be about <strong>{rupees(Math.round(feeNumber / 30))}</strong>.
+                {t("A JB Fitnet visit to your gym would be about")} <strong>{rupees(Math.round(feeNumber / 30))}</strong>.
               </p>
             )}
-            <Field label="Active members" name="active_members" type="number" inputMode="numeric" min={0} optional />
+            <Field label={t("Active members")} name="active_members" type="number" inputMode="numeric" min={0} optional={t("Optional")} />
             <div className="field">
-              <label htmlFor="f-message">Anything we should know? <span>Optional</span></label>
+              <label htmlFor="f-message">{t("Anything we should know?")} <span>{t("Optional")}</span></label>
               <textarea id="f-message" name="message" rows={3} maxLength={1000} />
             </div>
           </>
@@ -186,16 +198,17 @@ export default function JoinWizard({ kind }: { kind: Kind }) {
       <div className="join-actions">
         {step > 0 && (
           <button type="button" className="btn btn-ghost" onClick={() => setStep(step - 1)} disabled={sending}>
-            Back
+            {t("Back")}
           </button>
         )}
         <button type="submit" className="btn btn-primary" disabled={sending}>
-          {sending ? "Joining…" : last ? (kind === "member" ? "Join the waitlist" : "Add my gym") : "Next"}
+          {t(sending ? "Joining…" : last ? (kind === "member" ? "Join the waitlist" : "Add my gym") : "Next")}
         </button>
       </div>
       {last && (
         <p className="form-note">
-          We only use these details to contact you about JB Fitnet. See our <Link href="/privacy">privacy note</Link>.
+          {t("We only use these details to contact you about JB Fitnet. See our")}{" "}
+          <Link href={localize(lang, "/privacy")}>{t("privacy note")}</Link>.
         </p>
       )}
     </form>
@@ -205,21 +218,22 @@ export default function JoinWizard({ kind }: { kind: Kind }) {
 type FieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   name: string;
-  optional?: boolean;
+  // The word to show beside an optional field, already translated.
+  optional?: string;
 };
 
 function Field({ label, name, optional, ...rest }: FieldProps) {
   return (
     <div className="field">
       <label htmlFor={`f-${name}`}>
-        {label} {optional && <span>Optional</span>}
+        {label} {optional && <span>{optional}</span>}
       </label>
       <input id={`f-${name}`} name={name} type="text" maxLength={200} {...rest} />
     </div>
   );
 }
 
-function Chips({ label, name, options }: { label: string; name: string; options: string[] }) {
+function Chips({ label, name, options, t }: { label: string; name: string; options: string[]; t: (s: string) => string }) {
   return (
     <div className="field" role="radiogroup" aria-label={label}>
       <span className="chips-label">{label}</span>
@@ -227,7 +241,7 @@ function Chips({ label, name, options }: { label: string; name: string; options:
         {options.map((o) => (
           <label key={o}>
             <input type="radio" name={name} value={o} />
-            <span>{o}</span>
+            <span>{t(o)}</span>
           </label>
         ))}
       </div>

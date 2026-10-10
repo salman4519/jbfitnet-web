@@ -1,13 +1,17 @@
 "use client";
 
+import LangSwitch from "@/components/LangSwitch";
 import Logo from "@/components/Logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { langFromPath, localize, translator } from "@/lib/i18n";
 import { nav } from "@/lib/site";
 
 export default function Header() {
   const pathname = usePathname();
+  const lang = langFromPath(pathname);
+  const t = translator(lang);
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
 
@@ -26,11 +30,11 @@ export default function Header() {
   const links = nav.map((item) => (
     <Link
       key={item.href}
-      href={item.href}
+      href={localize(lang, item.href)}
       onClick={close}
-      aria-current={pathname === item.href ? "page" : undefined}
+      aria-current={pathname === localize(lang, item.href) ? "page" : undefined}
     >
-      {item.label}
+      {t(item.label)}
     </Link>
   ));
 
@@ -38,18 +42,20 @@ export default function Header() {
     <>
       <header className="header">
         <div className="container header-inner">
-          <Link href="/" className="logo" aria-label="JB Fitnet home">
+          <Link href={localize(lang, "/")} className="logo" aria-label="JB Fitnet home">
             <Logo priority />
           </Link>
 
           <nav className="nav" aria-label="Main">
             {links}
-            <Link href="/waitlist" className="btn btn-primary btn-sm">
-              Join the waitlist
+            <LangSwitch />
+            <Link href={localize(lang, "/waitlist")} className="btn btn-primary btn-sm">
+              {t("Join the waitlist")}
             </Link>
           </nav>
 
           <div className="header-tools">
+            <LangSwitch />
           <button
             type="button"
             className="menu-toggle"
@@ -77,9 +83,10 @@ export default function Header() {
         </button>
         <nav className="drawer-nav" aria-label="Main">
           {links}
+          <LangSwitch onClick={close} />
         </nav>
-        <Link href="/waitlist" className="btn btn-primary btn-block" onClick={close}>
-          Join the waitlist
+        <Link href={localize(lang, "/waitlist")} className="btn btn-primary btn-block" onClick={close}>
+          {t("Join the waitlist")}
         </Link>
       </aside>
     </>
